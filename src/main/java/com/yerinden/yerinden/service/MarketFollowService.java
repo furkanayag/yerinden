@@ -1,12 +1,14 @@
 package com.yerinden.yerinden.service;
 
 import com.yerinden.yerinden.controller.request.BasketAddRequest;
-import com.yerinden.yerinden.controller.response.BasketProductsResponse;
+import com.yerinden.yerinden.controller.request.FollowMarketRequest;
+import com.yerinden.yerinden.controller.request.RemoveFollowedMarketRequest;
 import com.yerinden.yerinden.controller.response.EmptyResponse;
 import com.yerinden.yerinden.controller.response.FollowedMarketResponse;
-import com.yerinden.yerinden.entity.*;
+import com.yerinden.yerinden.entity.Market;
+import com.yerinden.yerinden.entity.MarketFollower;
+import com.yerinden.yerinden.entity.User;
 import com.yerinden.yerinden.model.BusinessException;
-import com.yerinden.yerinden.repository.BasketItemRepository;
 import com.yerinden.yerinden.repository.MarketFollowerRepository;
 import com.yerinden.yerinden.security.UserSession;
 import lombok.RequiredArgsConstructor;
@@ -31,16 +33,16 @@ public class MarketFollowService {
         return new FollowedMarketResponse(markets);
     }
 
-    public EmptyResponse addItem(UserSession userSession, BasketAddRequest request){
-        Market market = marketService.findById(request.getProductId());
+    public EmptyResponse addItem(UserSession userSession, FollowMarketRequest request){
+        Market market = marketService.findById(request.getMarketId());
         User user = userService.findByEmailAndIsActive(userSession.getEmail());
         MarketFollower marketFollower = MarketFollower.builder().market(market).user(user).build();
         repository.save(marketFollower);
         return new EmptyResponse();
     }
 
-    public EmptyResponse deleteItem(UserSession userSession, BasketAddRequest request){
-        Market market = marketService.findById(request.getProductId());
+    public EmptyResponse deleteItem(UserSession userSession, RemoveFollowedMarketRequest request){
+        Market market = marketService.findById(request.getMarketId());
         User user = userService.findByEmailAndIsActive(userSession.getEmail());
         MarketFollower marketFollower = findItemByUserAndProduct(user, market);
         deleteBasketItem(marketFollower);

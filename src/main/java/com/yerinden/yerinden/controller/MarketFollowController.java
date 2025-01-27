@@ -1,6 +1,7 @@
 package com.yerinden.yerinden.controller;
 
-import com.yerinden.yerinden.controller.request.BasketAddRequest;
+import com.yerinden.yerinden.controller.request.FollowMarketRequest;
+import com.yerinden.yerinden.controller.request.RemoveFollowedMarketRequest;
 import com.yerinden.yerinden.controller.response.EmptyResponse;
 import com.yerinden.yerinden.controller.response.FollowedMarketResponse;
 import com.yerinden.yerinden.security.UserSession;
@@ -20,7 +21,7 @@ public class MarketFollowController {
 
     @AllowAnyBuyer
     @GetMapping("/items")
-    public ResponseEntity<FollowedMarketResponse> getBasketItems(
+    public ResponseEntity<FollowedMarketResponse> getFollowedMarkets(
             @AuthenticationPrincipal UserSession userSession){
         FollowedMarketResponse response = service.getFollowedMarkets(userSession);
         return ResponseEntity.ok(response);
@@ -28,18 +29,18 @@ public class MarketFollowController {
 
     @AllowAnyBuyer
     @PostMapping("/add")
-    public ResponseEntity<EmptyResponse> addBasketProduct(
+    public ResponseEntity<EmptyResponse> addMarketFollower(
             @AuthenticationPrincipal UserSession userSession,
-            @RequestBody BasketAddRequest request) {
+            @RequestBody FollowMarketRequest request) {
         EmptyResponse response = service.addItem(userSession, request);
         return ResponseEntity.ok(response);
     }
 
     @AllowAnyBuyer
     @DeleteMapping("/remove")
-    public ResponseEntity<EmptyResponse> deleteProduct(
+    public ResponseEntity<EmptyResponse> deleteMarketFollower(
             @AuthenticationPrincipal UserSession userSession,
-            @RequestBody BasketAddRequest request){
+            @RequestBody RemoveFollowedMarketRequest request){
         EmptyResponse response = service.deleteItem(userSession, request);
         return ResponseEntity.ok(response);
     }

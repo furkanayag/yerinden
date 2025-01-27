@@ -1,6 +1,8 @@
 package com.yerinden.yerinden.controller;
 
 import com.yerinden.yerinden.controller.request.BasketAddRequest;
+import com.yerinden.yerinden.controller.request.FavItemAddRequest;
+import com.yerinden.yerinden.controller.request.FavItemDeleteRequest;
 import com.yerinden.yerinden.controller.response.BasketProductsResponse;
 import com.yerinden.yerinden.controller.response.EmptyResponse;
 import com.yerinden.yerinden.controller.response.FavProductsResponse;
@@ -22,7 +24,7 @@ public class FavItemController {
 
     @AllowAnyBuyer
     @GetMapping("/items")
-    public ResponseEntity<FavProductsResponse> getBasketItems(
+    public ResponseEntity<FavProductsResponse> getFavItems(
             @AuthenticationPrincipal UserSession userSession){
         FavProductsResponse response = service.getFavProducts(userSession);
         return ResponseEntity.ok(response);
@@ -30,18 +32,18 @@ public class FavItemController {
 
     @AllowAnyBuyer
     @PostMapping("/add")
-    public ResponseEntity<EmptyResponse> addBasketProduct(
+    public ResponseEntity<EmptyResponse> addFavItem(
             @AuthenticationPrincipal UserSession userSession,
-            @RequestBody BasketAddRequest request) {
+            @RequestBody FavItemAddRequest request) {
         EmptyResponse response = service.addItem(userSession, request);
         return ResponseEntity.ok(response);
     }
 
     @AllowAnyBuyer
     @DeleteMapping("/remove")
-    public ResponseEntity<EmptyResponse> deleteProduct(
+    public ResponseEntity<EmptyResponse> deleteFavItem(
             @AuthenticationPrincipal UserSession userSession,
-            @RequestBody BasketAddRequest request){
+            @RequestBody FavItemDeleteRequest request){
         EmptyResponse response = service.deleteItem(userSession, request);
         return ResponseEntity.ok(response);
     }

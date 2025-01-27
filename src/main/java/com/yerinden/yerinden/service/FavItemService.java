@@ -1,6 +1,8 @@
 package com.yerinden.yerinden.service;
 
 import com.yerinden.yerinden.controller.request.BasketAddRequest;
+import com.yerinden.yerinden.controller.request.FavItemAddRequest;
+import com.yerinden.yerinden.controller.request.FavItemDeleteRequest;
 import com.yerinden.yerinden.controller.response.EmptyResponse;
 import com.yerinden.yerinden.controller.response.FavProductsResponse;
 import com.yerinden.yerinden.entity.FavItem;
@@ -30,7 +32,7 @@ public class FavItemService {
         return new FavProductsResponse(products);
     }
 
-    public EmptyResponse addItem(UserSession userSession, BasketAddRequest request){
+    public EmptyResponse addItem(UserSession userSession, FavItemAddRequest request){
         Product product = productService.findById(request.getProductId());
         User user = userService.findByEmailAndIsActive(userSession.getEmail());
         FavItem favItem = FavItem.builder().product(product).user(user).build();
@@ -38,7 +40,7 @@ public class FavItemService {
         return new EmptyResponse();
     }
 
-    public EmptyResponse deleteItem(UserSession userSession, BasketAddRequest request){
+    public EmptyResponse deleteItem(UserSession userSession, FavItemDeleteRequest request){
         Product product = productService.findById(request.getProductId());
         User user = userService.findByEmailAndIsActive(userSession.getEmail());
         FavItem favItem = findItemByUserAndProduct(user, product);
