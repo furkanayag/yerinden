@@ -26,5 +26,7 @@ public class Market {
     private List<Product> sellerProducts;
     @OneToMany
     private List<Transaction> sellerTransactions;
+    @OneToMany
+    private List<MarketFollower> marketFollowers;
 
 }

@@ -46,6 +46,8 @@ public class User {
     private List<BasketItem> basketProducts;
     @OneToMany
     private List<Transaction> buyerTransactions;
+    @OneToMany
+    private List<Market> followedMarkets;
 
     //seller fields
     @ManyToOne
