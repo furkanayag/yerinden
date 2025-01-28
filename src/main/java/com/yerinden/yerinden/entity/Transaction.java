@@ -1,25 +1,27 @@
 package com.yerinden.yerinden.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
+@Builder
 public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    private Double amount;
 
     @ManyToOne
     @JoinColumn(name = "userId")
     private User user;
-    @ManyToOne
-    @JoinColumn(name = "marketId")
-    private Market market;
-    @ManyToOne
+    @ManyToMany
     @JoinColumn(name = "productId")
-    private Product product;
+    private List<Product> products;
 
 }

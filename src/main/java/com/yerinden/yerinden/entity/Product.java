@@ -25,7 +25,10 @@ public class Product {
     private List<BasketItem> basketItems;
     @OneToMany
     private List<User> boughtUsers;
-    @OneToMany
+    @ManyToMany
     private List<Transaction> transactions;
+    @ManyToOne
+    @JoinColumn(name = "marketId")
+    private Market market;
 
 }
