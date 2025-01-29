@@ -1,9 +1,8 @@
 package com.yerinden.yerinden.entity;
 
+import com.yerinden.yerinden.model.OrderStatus;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -11,17 +10,22 @@ import java.util.List;
 @Getter
 @Setter
 @Builder
-public class Transaction {
+@NoArgsConstructor
+@AllArgsConstructor
+public class SellerTransaction {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Double amount;
+    private OrderStatus status;
 
     @ManyToOne
     @JoinColumn(name = "userId")
     private User user;
-    @ManyToMany
+    @ManyToOne
     @JoinColumn(name = "productId")
-    private List<Product> products;
-
+    private Product product;
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private Market market;
 }

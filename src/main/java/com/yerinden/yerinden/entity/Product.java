@@ -26,7 +26,7 @@ public class Product {
     @OneToMany
     private List<User> boughtUsers;
     @ManyToMany
-    private List<Transaction> transactions;
+    private List<BuyerTransaction> buyerTransactions;
     @ManyToOne
     @JoinColumn(name = "marketId")
     private Market market;

@@ -45,7 +45,7 @@ public class User {
     @OneToMany
     private List<BasketItem> basketProducts;
     @OneToMany
-    private List<Transaction> buyerTransactions;
+    private List<BuyerTransaction> buyerBuyerTransactions;
     @OneToMany
     private List<Market> followedMarkets;
 
