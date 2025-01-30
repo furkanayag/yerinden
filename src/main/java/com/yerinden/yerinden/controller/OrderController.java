@@ -36,6 +36,13 @@ public class OrderController {
         return ResponseEntity.ok(response);
     }
 
+    @AllowAnyBuyer
+    @PostMapping
+    public ResponseEntity<EmptyResponse> review(
+            @AuthenticationPrincipal UserSession userSession) {
+        return ResponseEntity.ok(new EmptyResponse());
+    }
+
     @AllowAnySeller
     @GetMapping("/seller")
     public ResponseEntity<SellerTransactionHistoryResponse> getSellerOrders(

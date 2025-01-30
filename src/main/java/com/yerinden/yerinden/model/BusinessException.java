@@ -18,7 +18,11 @@ public class BusinessException extends RuntimeException{
     public static BusinessException transactionNotFound(){return new BusinessException(HttpStatus.BAD_REQUEST, "transaction_not_found");}
     public static BusinessException basketItemNotFound(){return new BusinessException(HttpStatus.BAD_REQUEST, "basket_item_not_found");}
     public static BusinessException favItemNotFound(){return new BusinessException(HttpStatus.BAD_REQUEST, "fav_item_not_found");}
+    public static BusinessException reviewNotFound(){return new BusinessException(HttpStatus.BAD_REQUEST, "review_not_found");}
     public static BusinessException passwordDoesntMatch(){return new BusinessException(HttpStatus.BAD_REQUEST, "password_doesnt_match");}
     public static BusinessException userAlreadyExist(){return new BusinessException(HttpStatus.BAD_REQUEST, "user_already_exist");}
     public static BusinessException incorrectRole(){return new BusinessException(HttpStatus.FORBIDDEN, "incorrect_role");}
+    public static BusinessException transactionBelongsOtherUser(){return new BusinessException(HttpStatus.FORBIDDEN, "transaction_belongs_other_user");}
+    public static BusinessException alreadyReviewed(){return new BusinessException(HttpStatus.BAD_REQUEST, "already_reviewed");}
+    public static BusinessException reviewBelongOtherUser(){return new BusinessException(HttpStatus.BAD_REQUEST, "review_belongs_other_user");}
 }

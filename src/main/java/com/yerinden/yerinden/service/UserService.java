@@ -35,8 +35,5 @@ public class UserService {
         return repository.findByEmailAndIsActive(email, true);
     }
 
-    public EmptyResponse saveUser(User user){
-        repository.save(user);
-        return new EmptyResponse();
-    }
+    public void saveUser(User user){ repository.save(user); }
 }

@@ -19,4 +19,6 @@ public class ProductService {
     public Product findById(Long productId) throws BusinessException {
          return repository.findById(productId).orElseThrow(BusinessException::productNotFound);
     }
+
+    public void saveProduct(Product product){ repository.save(product); }
 }

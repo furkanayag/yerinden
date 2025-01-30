@@ -15,10 +15,12 @@ public class Market {
     private Long id;
 
     private String vkn;
-    private String marketName;
-    private String marketEmail;
-    private String marketPhone;
-    private String marketAddress;
+    private String name;
+    private String email;
+    private String phone;
+    private String address;
+    private Long reviewCount;
+    private Double reviewPoint;
 
     @OneToMany
     private List<User> marketAdmins;

@@ -20,6 +20,8 @@ public class Product {
     private Double price;
     private Long stock;
     private Boolean isAvailable;
+    private Long reviewCount;
+    private Double reviewPoint;
 
     @OneToMany
     private List<BasketItem> basketItems;

@@ -13,6 +13,7 @@ import com.yerinden.yerinden.security.UserSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class FavItemService {
         return new FavProductsResponse(products);
     }
 
+    @Transactional
     public EmptyResponse addItem(UserSession userSession, FavItemAddRequest request){
         Product product = productService.findById(request.getProductId());
         User user = userService.findByEmailAndIsActive(userSession.getEmail());
@@ -40,6 +42,7 @@ public class FavItemService {
         return new EmptyResponse();
     }
 
+    @Transactional
     public EmptyResponse deleteItem(UserSession userSession, FavItemDeleteRequest request){
         Product product = productService.findById(request.getProductId());
         User user = userService.findByEmailAndIsActive(userSession.getEmail());
@@ -53,10 +56,7 @@ public class FavItemService {
                 .orElseThrow(BusinessException::favItemNotFound);
     }
 
-    private EmptyResponse deleteFavItem(FavItem favItem){
-        repository.delete(favItem);
-        return new EmptyResponse();
-    }
+    private void deleteFavItem(FavItem favItem){ repository.delete(favItem); }
 
     private List<FavItem> getFavItems(User user){ return repository.findAllByUser(user); }
 }

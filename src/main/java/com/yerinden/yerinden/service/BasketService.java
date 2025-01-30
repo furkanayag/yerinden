@@ -12,6 +12,7 @@ import com.yerinden.yerinden.security.UserSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -31,6 +32,7 @@ public class BasketService {
         return new BasketProductsResponse(products);
     }
 
+    @Transactional
     public EmptyResponse addItem(UserSession userSession, BasketAddRequest request){
         Product product = productService.findById(request.getProductId());
         User user = userService.findByEmailAndIsActive(userSession.getEmail());
@@ -39,6 +41,7 @@ public class BasketService {
         return new EmptyResponse();
     }
 
+    @Transactional
     public EmptyResponse deleteItem(UserSession userSession, BasketAddRequest request){
         Product product = productService.findById(request.getProductId());
         User user = userService.findByEmailAndIsActive(userSession.getEmail());
@@ -52,10 +55,7 @@ public class BasketService {
                 .orElseThrow(BusinessException::basketItemNotFound);
     }
 
-    private EmptyResponse deleteBasketItem(BasketItem basketItem){
-        repository.delete(basketItem);
-        return new EmptyResponse();
-    }
+    private void deleteBasketItem(BasketItem basketItem){ repository.delete(basketItem); }
 
     private List<BasketItem> getBasketItems(User user){ return repository.findAllByUser(user); }
 }

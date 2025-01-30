@@ -1,10 +1,8 @@
 package com.yerinden.yerinden.service;
 
 import com.yerinden.yerinden.entity.Market;
-import com.yerinden.yerinden.entity.Product;
 import com.yerinden.yerinden.model.BusinessException;
 import com.yerinden.yerinden.repository.MarketRepository;
-import com.yerinden.yerinden.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,4 +17,6 @@ public class MarketService {
     public Market findById(Long productId) throws BusinessException {
          return repository.findById(productId).orElseThrow(BusinessException::marketNotFound);
     }
+
+    public void saveMarket(Market market){ repository.save(market); }
 }

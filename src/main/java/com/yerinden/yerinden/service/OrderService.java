@@ -14,6 +14,7 @@ import com.yerinden.yerinden.security.UserSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -40,30 +41,43 @@ public class OrderService {
         return new SellerTransactionHistoryResponse(sellerTransactions);
     }
 
+    @Transactional
     public EmptyResponse order(UserSession userSession){
         User user = userService.findByEmailAndIsActive(userSession.getEmail());
         List<Product> basketProducts = basketService.getBasketProducts(userSession).getProducts();
 
         Double transactionAmount = basketProducts.stream().map(Product::getPrice).reduce(0.0, Double::sum);
-        BuyerTransaction buyerTransaction = BuyerTransaction.builder()
-                .amount(transactionAmount)
-                .products(basketProducts)
-                .user(user)
-                .build();
-        buyerTransactionRepository.save(buyerTransaction);
+        buyerTransactionRepository.save(createBuyerTransaction(user, transactionAmount, basketProducts));
 
         basketProducts.forEach(product -> createSellerTransaction(product, user));
         //todo enter payment flow
         return new EmptyResponse();
     }
 
+    @Transactional
     public EmptyResponse updateOrderStatus(UpdateOrderStatusRequest request){
         request.getUpdateOrderStatusObjects().forEach(this::updateSellerTransactionStatus);
         return new EmptyResponse();
     }
 
-    private void createSellerTransaction(Product product, User user){
-        SellerTransaction.builder()
+    public BuyerTransaction findBuyerTransaction(Long id){
+        return buyerTransactionRepository.findById(id).orElseThrow(BusinessException::transactionNotFound);
+    }
+
+    public SellerTransaction findSellerTransaction(Long id){
+        return sellerTransactionRepository.findById(id).orElseThrow(BusinessException::transactionNotFound);
+    }
+
+    private BuyerTransaction createBuyerTransaction(User user, Double transactionAmount, List<Product> products){
+        return BuyerTransaction.builder()
+                .amount(transactionAmount)
+                .products(products)
+                .user(user)
+                .build();
+    }
+
+    private SellerTransaction createSellerTransaction(Product product, User user){
+        return SellerTransaction.builder()
                 .market(product.getMarket())
                 .amount(product.getPrice())
                 .user(user)
@@ -78,5 +92,5 @@ public class OrderService {
         sellerTransactionRepository.save(transaction);
     }
 
-    private void checkIfMarketExist(User user){ if(user.getMarket() == null){throw BusinessException.marketNotFound();} }
+    private void checkIfMarketExist(User user){ if(user.getMarket() == null){throw BusinessException.marketNotFound();}}
 }

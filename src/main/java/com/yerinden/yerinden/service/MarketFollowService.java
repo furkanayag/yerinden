@@ -14,6 +14,7 @@ import com.yerinden.yerinden.security.UserSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -33,6 +34,7 @@ public class MarketFollowService {
         return new FollowedMarketResponse(markets);
     }
 
+    @Transactional
     public EmptyResponse addItem(UserSession userSession, FollowMarketRequest request){
         Market market = marketService.findById(request.getMarketId());
         User user = userService.findByEmailAndIsActive(userSession.getEmail());
@@ -41,6 +43,7 @@ public class MarketFollowService {
         return new EmptyResponse();
     }
 
+    @Transactional
     public EmptyResponse deleteItem(UserSession userSession, RemoveFollowedMarketRequest request){
         Market market = marketService.findById(request.getMarketId());
         User user = userService.findByEmailAndIsActive(userSession.getEmail());
@@ -54,10 +57,7 @@ public class MarketFollowService {
                 .orElseThrow(BusinessException::basketItemNotFound);
     }
 
-    private EmptyResponse deleteBasketItem(MarketFollower marketFollower){
-        repository.delete(marketFollower);
-        return new EmptyResponse();
-    }
+    private void deleteBasketItem(MarketFollower marketFollower){ repository.delete(marketFollower); }
 
     private List<MarketFollower> getBasketItems(User user){ return repository.findAllByUser(user); }
 }
