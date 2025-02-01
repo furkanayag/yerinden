@@ -1,6 +1,6 @@
 package com.yerinden.yerinden.service;
 
-import com.yerinden.yerinden.controller.request.BasketAddRequest;
+import com.yerinden.yerinden.controller.request.AddBasketRequest;
 import com.yerinden.yerinden.controller.response.BasketProductsResponse;
 import com.yerinden.yerinden.controller.response.EmptyResponse;
 import com.yerinden.yerinden.entity.BasketItem;
@@ -33,7 +33,7 @@ public class BasketService {
     }
 
     @Transactional
-    public EmptyResponse addItem(UserSession userSession, BasketAddRequest request){
+    public EmptyResponse addItem(UserSession userSession, AddBasketRequest request){
         Product product = productService.findById(request.getProductId());
         User user = userService.findByEmailAndIsActive(userSession.getEmail());
         BasketItem basketItem = BasketItem.builder().product(product).user(user).build();
@@ -42,7 +42,7 @@ public class BasketService {
     }
 
     @Transactional
-    public EmptyResponse deleteItem(UserSession userSession, BasketAddRequest request){
+    public EmptyResponse deleteItem(UserSession userSession, AddBasketRequest request){
         Product product = productService.findById(request.getProductId());
         User user = userService.findByEmailAndIsActive(userSession.getEmail());
         BasketItem basketItem = findItemByUserAndProduct(user, product);

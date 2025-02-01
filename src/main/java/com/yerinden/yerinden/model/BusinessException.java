@@ -13,6 +13,7 @@ public class BusinessException extends RuntimeException{
 
     public static BusinessException jwtValidationException(){return new BusinessException(HttpStatus.FORBIDDEN, "jwt_validation_failed");}
     public static BusinessException userNotFound(){return new BusinessException(HttpStatus.BAD_REQUEST, "user_not_found");}
+    public static BusinessException userNotVerified(){return new BusinessException(HttpStatus.UNAUTHORIZED, "user_not_verified");}
     public static BusinessException productNotFound(){return new BusinessException(HttpStatus.BAD_REQUEST, "product_not_found");}
     public static BusinessException marketNotFound(){return new BusinessException(HttpStatus.BAD_REQUEST, "market_not_found");}
     public static BusinessException transactionNotFound(){return new BusinessException(HttpStatus.BAD_REQUEST, "transaction_not_found");}

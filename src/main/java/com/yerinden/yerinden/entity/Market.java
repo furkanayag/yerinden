@@ -1,14 +1,16 @@
 package com.yerinden.yerinden.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Market {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,8 +21,14 @@ public class Market {
     private String email;
     private String phone;
     private String address;
-    private Long reviewCount;
-    private Double reviewPoint;
+
+    @Builder.Default
+    private Long reviewCount = 0L;
+
+    @Builder.Default
+    private Double reviewPoint = 0D;
+
+    private Boolean isActive;
 
     @OneToMany
     private List<User> marketAdmins;

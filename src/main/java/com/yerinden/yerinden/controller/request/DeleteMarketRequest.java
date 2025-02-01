@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @Data
 @Getter
-public class FavItemAddRequest {
-    private Long productId;
+public class DeleteMarketRequest {
+    private Long marketId;
 }

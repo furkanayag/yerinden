@@ -1,6 +1,6 @@
 package com.yerinden.yerinden.controller;
 
-import com.yerinden.yerinden.controller.request.BasketAddRequest;
+import com.yerinden.yerinden.controller.request.AddBasketRequest;
 import com.yerinden.yerinden.controller.response.BasketProductsResponse;
 import com.yerinden.yerinden.controller.response.EmptyResponse;
 import com.yerinden.yerinden.security.UserSession;
@@ -30,7 +30,7 @@ public class BasketController {
     @PostMapping("/add")
     public ResponseEntity<EmptyResponse> addBasketProduct(
             @AuthenticationPrincipal UserSession userSession,
-            @RequestBody BasketAddRequest request) {
+            @RequestBody AddBasketRequest request) {
         EmptyResponse response = service.addItem(userSession, request);
         return ResponseEntity.ok(response);
     }
@@ -39,7 +39,7 @@ public class BasketController {
     @DeleteMapping("/remove")
     public ResponseEntity<EmptyResponse> deleteProduct(
             @AuthenticationPrincipal UserSession userSession,
-            @RequestBody BasketAddRequest request){
+            @RequestBody AddBasketRequest request){
         EmptyResponse response = service.deleteItem(userSession, request);
         return ResponseEntity.ok(response);
     }

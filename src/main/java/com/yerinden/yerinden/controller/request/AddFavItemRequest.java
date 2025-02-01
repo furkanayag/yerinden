@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @Data
 @Getter
-public class FavItemDeleteRequest {
+public class AddFavItemRequest {
     private Long productId;
 }

@@ -1,6 +1,7 @@
 package com.yerinden.yerinden.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,8 +21,15 @@ public class Product {
     private Double price;
     private Long stock;
     private Boolean isAvailable;
-    private Long reviewCount;
-    private Double reviewPoint;
+
+    @Builder.Default
+    private Long reviewCount = 0L;
+
+    @Builder.Default
+    private Double reviewPoint = 0D;
+
+    private Double priceWithKDV;
+    private Double priceWithYerindenCut; //todo implement yerinden cut logic
 
     @OneToMany
     private List<BasketItem> basketItems;

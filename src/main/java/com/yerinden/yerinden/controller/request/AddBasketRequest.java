@@ -5,6 +5,6 @@ import lombok.Getter;
 
 @Data
 @Getter
-public class BasketDeleteRequest {
+public class AddBasketRequest {
     private Long productId;
 }

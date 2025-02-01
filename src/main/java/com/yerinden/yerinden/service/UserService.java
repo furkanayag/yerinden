@@ -1,6 +1,6 @@
 package com.yerinden.yerinden.service;
 
-import com.yerinden.yerinden.controller.request.UserUpdateRequest;
+import com.yerinden.yerinden.controller.request.UpdateUserRequest;
 import com.yerinden.yerinden.controller.response.EmptyResponse;
 import com.yerinden.yerinden.entity.User;
 import com.yerinden.yerinden.mapper.EntityMapper;
@@ -21,14 +21,24 @@ public class UserService {
     private final UserRepository repository;
     private final EntityMapper entityMapper;
 
-    public EmptyResponse updateUser(UserSession userSession, UserUpdateRequest request){
+    public EmptyResponse updateUser(UserSession userSession, UpdateUserRequest request){
         User user = findByEmailAndIsActive(userSession.getEmail());
-        entityMapper.merge(user, request);
+
+        if (request.getEmail() != null){
+            user.setIsEmailVerified(false);
+            saveUser(user);
+        }
+
+        entityMapper.mergeUser(user, request);
         return new EmptyResponse();
     }
 
     public User findByEmailAndIsActive(String email) throws BusinessException {
         return repository.findByEmailAndIsActive(email, true).orElseThrow(BusinessException::userNotFound);
+    }
+
+    public User findByIdAndIsActive(Long id) throws BusinessException {
+        return repository.findByIdAndIsActive(id, true).orElseThrow(BusinessException::userNotFound);
     }
 
     public Optional<User> checkIfUserExist(String email){

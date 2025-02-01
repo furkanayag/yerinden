@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Data
 @Getter
-public class UserUpdateRequest {
+public class UpdateUserRequest {
     private String name;
     private String surname;
     private String email;

@@ -44,9 +44,11 @@ public class OrderService {
     @Transactional
     public EmptyResponse order(UserSession userSession){
         User user = userService.findByEmailAndIsActive(userSession.getEmail());
+        checkIfUserVerified(user);
+
         List<Product> basketProducts = basketService.getBasketProducts(userSession).getProducts();
 
-        Double transactionAmount = basketProducts.stream().map(Product::getPrice).reduce(0.0, Double::sum);
+        Double transactionAmount = basketProducts.stream().map(Product::getPriceWithYerindenCut).reduce(0.0, Double::sum);
         buyerTransactionRepository.save(createBuyerTransaction(user, transactionAmount, basketProducts));
 
         basketProducts.forEach(product -> createSellerTransaction(product, user));
@@ -79,7 +81,7 @@ public class OrderService {
     private SellerTransaction createSellerTransaction(Product product, User user){
         return SellerTransaction.builder()
                 .market(product.getMarket())
-                .amount(product.getPrice())
+                .amount(product.getPriceWithYerindenCut())
                 .user(user)
                 .status(OrderStatus.INITIAL)
                 .build();
@@ -93,4 +95,6 @@ public class OrderService {
     }
 
     private void checkIfMarketExist(User user){ if(user.getMarket() == null){throw BusinessException.marketNotFound();}}
+
+    private void checkIfUserVerified(User user) { if (!user.getIsEmailVerified()){throw BusinessException.userNotVerified();}}
 }
